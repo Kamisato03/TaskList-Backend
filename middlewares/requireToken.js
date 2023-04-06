@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { tokenVerificationErrors } from "../utils/tokenManager.js";
 
 export const requireToken = (req, res, next) => {
   try {
@@ -11,16 +12,10 @@ export const requireToken = (req, res, next) => {
     req.uid = uid;
     next();
   } catch (error) {
-    const tokenVerificationErrors = {
-      "invalid signature": "La firma del jwt no es valida",
-      "jwt expired": "JWT expirado",
-      "invalid token": "Token no valido",
-      "No Beaver": "Utiliza formato Beaver",
-      "jwt malformed": "JWT formato no valido",
-      "Unauthorized": "acceso no autorizado"
-    };
+    
     return res
       .status(401)
       .send({ error: tokenVerificationErrors[error.message] });
   }
 };
+ 
