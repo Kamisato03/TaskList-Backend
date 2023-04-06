@@ -4,6 +4,7 @@ import {
   getLink,
   getLinks,
   removeLink,
+  updateLink,
 } from "../controllers/link.controller.js";
 import { requireToken } from "../middlewares/requireToken.js";
 import { bodyLinkValidator, paramLinkValidator } from "../middlewares/validatorManeger.js";
@@ -19,4 +20,5 @@ router.get("/", requireToken, getLinks);
 router.post("/", requireToken, bodyLinkValidator, createLinks);
 router.get("/:id", requireToken, paramLinkValidator ,getLink);
 router.delete("/:id", requireToken, paramLinkValidator ,removeLink);
+router.patch("/:id", requireToken, paramLinkValidator, bodyLinkValidator, updateLink);
 export default router;

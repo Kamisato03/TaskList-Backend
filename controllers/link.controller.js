@@ -51,10 +51,38 @@ export const removeLink = async (req, res) => {
     const link = await Link.findById(id);
 
     if (!link) return res.status(404).json({ error: "No existe el link" });
-    if (link.uid.equals(req.uid))
+    if (!link.uid.equals(req.uid))
       return res.status(401).json({ error: "No le pertenece ese link" });
 
     await link.remove();
+    return res.json({ link });
+  } catch (error) {
+    console.log(error);
+    if (error.kind === "ObjectId") {
+      res.status(403).json({ error: "Formato de id incorrecto" });
+    }
+    res.status(500).json({ error: "Error del servidor" });
+  }
+};
+
+export const updateLink = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { longLink } = req.body;
+
+    console.log(longLink);
+    if (!longLink.startsWith("https://")) {
+      longLink = "https://" + longLink;
+    }
+
+    const link = await Link.findById(id);
+
+    if (!link) return res.status(404).json({ error: "No existe el link" });
+    if (!link.uid.equals(req.uid))
+      return res.status(401).json({ error: "No le pertenece ese link" });
+
+    link.longLink = longLink;
+    await link.save();
     return res.json({ link });
   } catch (error) {
     console.log(error);
