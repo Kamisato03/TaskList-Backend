@@ -21,6 +21,7 @@
     "express-validator": "^6.15.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
+    "mongoose-softdelete": "^1.2.0",
     "nanoid": "^4.0.2"
   },
   "devDependencies": {

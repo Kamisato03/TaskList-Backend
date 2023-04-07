@@ -16,6 +16,11 @@ export const paramLinkValidator = [
   validationResultExpress,
 ];
 
+export const paramTaskIdValidator = [
+  param("id", "Formato no valido (expressValidator").trim().notEmpty().escape(),
+  validationResultExpress,
+];
+
 export const bodyLinkValidator = [
   body("longLink", "formato link incorrecto")
     .trim()
@@ -59,5 +64,31 @@ export const bodyLoginValidator = [
   body("password", "Formato de password incorrecto")
     .trim()
     .isLength({ min: 6 }),
+  validationResultExpress,
+];
+
+export const bodyTaskValidator = [
+  body("tittle")
+    .trim()
+    .isLength({ max: 15 })
+    .withMessage("El titulo debe tener máximo 15 caracteres"),
+  body("description")
+    .trim()
+    .isLength({ max: 500 })
+    .withMessage("La descripción debe tener al máximo 500 caracteres"),
+  body("priority")
+    .optional()
+    .custom((value, { req }) => {
+      if (value) {
+        req.body.priority = value.toLowerCase();
+      }
+      return true;
+    })
+    .isIn(["alta", "media", "baja"])
+    .withMessage("La prioridad debe ser alta, media o baja"),
+  body("completed")
+    .optional()
+    .isBoolean()
+    .withMessage("El valor completado debe ser un booleano"),
   validationResultExpress,
 ];

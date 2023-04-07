@@ -77,7 +77,7 @@ export const removeLink = async (req, res) => {
   } catch (error) {
     console.log(error);
     if (error.kind === "ObjectId") {
-      res.status(403).json({ error: "Formato de id incorrecto" });
+      res.status(400).json({ error: "Formato de id incorrecto" });
     }
     res.status(500).json({ error: "Error del servidor" });
   }
