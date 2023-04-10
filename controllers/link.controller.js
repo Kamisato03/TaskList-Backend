@@ -6,7 +6,6 @@ export const getLinks = async (req, res) => {
     const links = await Link.find({ uid: req.uid });
     return res.json({ links });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Error del servidor" });
   }
 };
@@ -20,7 +19,6 @@ export const getLink = async (req, res) => {
 
     return res.json({ longLink: link.longLink });
   } catch (error) {
-    console.log(error);
     if (error.kind === "ObjectId") {
       res.status(403).json({ error: "Formato de id incorrecto" });
     }
@@ -58,7 +56,6 @@ export const createLinks = async (req, res) => {
     const newLink = await link.save();
     return res.status(201).json({ newLink });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Error del servidor" });
   }
 };
@@ -72,10 +69,9 @@ export const removeLink = async (req, res) => {
     if (!link.uid.equals(req.uid))
       return res.status(401).json({ error: "No le pertenece ese link" });
 
-    await link.remove();
+    await link.deleteOne();
     return res.json({ link });
   } catch (error) {
-    console.log(error);
     if (error.kind === "ObjectId") {
       res.status(400).json({ error: "Formato de id incorrecto" });
     }
@@ -87,8 +83,7 @@ export const updateLink = async (req, res) => {
   try {
     const { id } = req.params;
     const { longLink } = req.body;
-
-    console.log(longLink);
+    
     if (!longLink.startsWith("https://")) {
       longLink = "https://" + longLink;
     }
@@ -103,7 +98,6 @@ export const updateLink = async (req, res) => {
     await link.save();
     return res.json({ link });
   } catch (error) {
-    console.log(error);
     if (error.kind === "ObjectId") {
       res.status(403).json({ error: "Formato de id incorrecto" });
     }
