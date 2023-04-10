@@ -20,6 +20,7 @@ export const generateRefreshToken = (uid, res) => {
       httpOnly: true,
       secure: !(process.env.MODO === "developer"),
       expires: new Date(Date.now() + expiresIn * 1000),
+      sameSite: "none",
     });
   } catch (error) {
     console.log(error);
@@ -32,5 +33,5 @@ export const tokenVerificationErrors = {
   "invalid token": "Token no valido",
   "No Beaver": "Utiliza formato Beaver",
   "jwt malformed": "JWT formato no valido",
-  "Unauthorized": "acceso no autorizado"
+  Unauthorized: "acceso no autorizado",
 };
