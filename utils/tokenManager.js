@@ -20,7 +20,7 @@ export const generateRefreshToken = (uid, res) => {
       httpOnly: true,
       secure: !(process.env.MODO === "developer"),
       expires: new Date(Date.now() + expiresIn * 1000),
-      sameSite: "none",
+      //sameSite: true //cuando se deploya la app.
     });
   } catch (error) {
     console.log(error);
